@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+    Delete {{user.first_name}} {{user.last_name}} 
+{% endblock %}
+
+{% block content %}
+    <h1>Are you sure you want to delete: {{user.first_name}} {{user.last_name}}?</h1>
+    <img src={{user.img_url}} width="100">
+
+    <form action="/{{user.id}}/delete" method="POST">
+        <button class="btn-danger">Delete</button>
+    </form>
+    <a href="/"><button class="btn-success">Home</button></a>
+{% endblock %}
