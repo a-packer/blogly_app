@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+{{post.title}}
+{% endblock %}
+
+{% block content %}
+    <h1>{{post.title}}</h1>
+    <p>{{post.content}}</p>
+    <p>By <a href='/{{user.id}}'>{{user.first_name}} {{user.last_name}}</a></p>
+    <p>Posted: {{post.created_at}}</p>
+
+    <a href='/post{{post.id}}/edit'><button class="btn-primary">Edit Post</button></a>
+    <a href='/users'><button class="btn-primary">Users</button></a>
+    <a href='/posts'><button class="btn-primary">Posts</button></a>
+
+{% endblock %}
+

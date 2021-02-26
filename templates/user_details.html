@@ -8,7 +8,19 @@ User {{user.first_name}} {{user.last_name}}
     <h1>Hi, {{user.first_name}} {{user.last_name}}</h1>
     <img src={{user.img_url}} width="100">
 
-    <a href="/{{user.id}}/edit"><button class="btn-info">Edit</button></a>
-    <a href="/{{user.id}}/delete"><button class="btn-danger">Delete</button></a>
-    <a href='/users'><button class="btn-primary">All Users</button></a>
+    <a href="/{{user.id}}/edit"><button class="btn-info">Edit Profile</button></a>
+    <a href="/{{user.id}}/delete"><button class="btn-danger">Delete Profile</button></a>
+    <a href='/users'><button class="btn-primary">Back to Users</button></a>
+
+    <h2>Posts</h2>
+    <ul>
+        {% for post in user.posts %}
+        <li><a href="/post{{post.id}}">{{post.title}}</a></li>
+        {% endfor %}
+    </ul>
+    <a href="/{{user.id}}/posts/new"><button class="btn-secondary">Add Post</button></a>
+    <a href='/posts'><button class="btn-primary">All Posts</button></a>
+
+ 
 {% endblock %}
+
