@@ -1,5 +1,5 @@
 from flask import Flask, request, redirect, render_template
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 from flask_debugtoolbar import DebugToolbarExtension
 
 
@@ -9,11 +9,13 @@ app.debug = True
 app.config['SECRET_KEY'] = '<aslfas249oiu2ejkrw9eiogkf>'
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-toolbar = DebugToolbarExtension(app)
-
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blog'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+connect_db(app)
+
+toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 # db.drop_all()
@@ -178,3 +180,54 @@ def delete_post(post_id):
     db.session.commit()
 
     return redirect("/posts")
+
+
+# --------------- Tag Routes ---------------------
+
+@app.route("/tags", methods=["GET"])
+def all_tags():
+    """Lists all tags, with links to the tag detail page."""
+    return "all tags"
+
+
+@app.route("/tags/<int:tag_id>", methods=["GET"])
+def tag_details():
+    """Show detail about a tag. Have links to edit form and to delete."""
+
+    return "tag details"
+
+
+@app.route("/tags/new", methods=["GET"])
+def create_tag_form():
+    """Shows a form to add a new tag."""
+    return "tag form"
+
+
+@app.route("/tags/new", methods=["POST"])
+def add_new_tag():
+    """Process add form, adds tag, and redirect to tag list."""
+    return "added tag"
+
+
+@app.route("/tags/<int:tag_id>/edit", methods=["GET"])
+def edit_tag_form():
+    """Show edit form for a tag."""
+    return "edit tag form"
+
+
+@app.route("/tags/<int:tag_id>/edit", methods=["POST"])
+def edit_tag():
+    """Process edit form, edit tag, and redirects to the tags list."""
+    return "edited tag"
+
+
+@app.route("/tags/<int:tag_id>/edit", methods=["GET"])
+def delete_tag_check():
+    """Just a check to make sure user really wants to delete a tag"""
+    return "delete tag check"
+
+
+@app.route("/tags/<int:tag_id>/delete", methods=["POST"])
+def delete_tag():
+    """Delete a tag."""
+    return "deleted tag"

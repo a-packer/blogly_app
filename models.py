@@ -34,7 +34,7 @@ class Post(db.Model):
     __tablename__ = "posts"
 
     def __repr__(self):
-        p=self
+        p = self
         return f"<Post {p.id} {p.title}>"
 
      # table schema
@@ -44,3 +44,38 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    #assignments = db.relationship('EmployeeProject', backref='employee')
+    subjects = db.relationship('PostTag', backref='post')
+
+    # projects = db.relationship('Project', secondary="employees_projects", backref="employees")
+    tags = db.relationship('Tag', secondary="post_tags", backref="posts")
+
+
+class Tag(db.Model):
+    """Tags are connected to posts in order to search for posts about certain topics"""
+
+    __tablename__ = "tags"
+
+    def __repr__(self):
+        return f"<Tag {self.id} {self.name}>"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text, nullable=False)
+
+    #  assignments = db.relationship('EmployeeProject', backref="project")
+    subjects = db.relationship('PostTag', backref="tag")
+
+class PostTag(db.Model):
+
+    __tablename__ = "post_tags"
+
+    def __repr__(self):
+        return f"<PostTag post-{self.post_id} tag-{self.tag_id}>"
+
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key=True)
+
+
+
+
